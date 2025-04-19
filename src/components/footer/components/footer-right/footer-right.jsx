@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Weather = styled.div`
@@ -14,3 +15,9 @@ export const FooterRight = ({ city, temperature, weather }) => {
 		</div>
 	);
 };
+
+FooterRight.propTypes = {
+	city: PropTypes.string.isRequired,
+	temperature: PropTypes.string.isRequired,
+	weather: PropTypes.string.isRequired,
+}

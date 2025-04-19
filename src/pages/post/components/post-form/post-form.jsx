@@ -7,6 +7,7 @@ import { sanitizeContent } from './utils';
 import { savePostAsync } from '../../../../actions';
 import { useServerRequest } from '../../../../hooks';
 import styled from 'styled-components';
+import { PROP_TYPE } from '../../../../constants';
 
 const PostFormContainer = ({
 	className,
@@ -37,7 +38,7 @@ const PostFormContainer = ({
 				title: titleValue,
 				content: newContent,
 			}),
-		).then(({id}) => navigate(`/post/${id}`));
+		).then(({ id }) => navigate(`/post/${id}`));
 	};
 
 	const onImageChange = ({ target }) => setImageUrlValue(target.value);
@@ -88,3 +89,7 @@ export const PostForm = styled(PostFormContainer)`
 		white-space: pre-line;
 	}
 `;
+
+PostForm.propTypes = {
+	post: PROP_TYPE.POST.isRequired,
+};

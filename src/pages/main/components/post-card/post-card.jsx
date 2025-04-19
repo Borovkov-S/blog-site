@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Icon } from '../../../../components';
 import styled from 'styled-components';
@@ -43,9 +44,9 @@ export const PostCard = styled(PostCardContainer)`
 
 	& .post-card-footer {
 		padding: 0 10px 20px;
-		}
+	}
 
-		& .post-card-info {
+	& .post-card-info {
 		display: flex;
 		justify-content: space-between;
 		margin-top: 10px;
@@ -59,3 +60,11 @@ export const PostCard = styled(PostCardContainer)`
 		line-height: 20px;
 	}
 `;
+
+PostCard.propTypes = {
+	id: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	publishedAt: PropTypes.string.isRequired,
+	commentsCount: PropTypes.number.isRequired,
+	imageUrl: PropTypes.string.isRequired,
+};

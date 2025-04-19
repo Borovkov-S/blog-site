@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCommentAsync, openModal, CLOSE_MODAL } from '../../../../../../actions';
 import { useServerRequest } from '../../../../../../hooks';
@@ -42,7 +43,9 @@ const CommentContainer = ({ className, id, postId, author, publishedAt, content 
 				</div>
 				<div className="comment-text">{content}</div>
 			</div>
-			{isAdminOrModerator && <Icon id="fa-trash-o" onClick={() => onCommentRemove(id)} />}{' '}
+			{isAdminOrModerator && (
+				<Icon id="fa-trash-o" onClick={() => onCommentRemove(id)} />
+			)}{' '}
 		</div>
 	);
 };
@@ -90,3 +93,11 @@ export const Comment = styled(CommentContainer)`
 		margin-top: 15px;
 	}
 `;
+
+Comment.propTypes = {
+	id: PropTypes.number.isRequired,
+	postId: PropTypes.string.isRequired,
+	author: PropTypes.string.isRequired,
+	publishedAt: PropTypes.string.isRequired,
+	content: PropTypes.string.isRequired,
+};
