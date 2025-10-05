@@ -3,12 +3,12 @@ import { Icon } from '../../../../components';
 import styled from 'styled-components';
 
 const LargeText = styled.div`
-	font-size: 68px;
+	font-size: 50px;
 	font-weight: bold;
 	line-height: 65px;
 `;
 const SmallText = styled.div`
-	font-size: 25px;
+	font-size: 20px;
 	font-weight: bold;
 `;
 

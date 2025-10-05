@@ -83,6 +83,7 @@ const AuthorizationContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<H2>Авторизация</H2>
+			<p style={{textAlign: 'center', fontSize: '16px'}}>Для проверки функционала есть 3 учетные записи <b>User, Moderator и Admin</b> с паролями <b>qwerty123</b></p>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					type="text"

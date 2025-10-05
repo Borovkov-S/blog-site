@@ -16,7 +16,7 @@ const regFormSchema = yup.object().shape({
 	login: yup
 		.string()
 		.required('Заполните логин')
-		.matches(/^\w+$/, 'Неверно заполнен логин, допускаются только буквы и цыфры')
+		.matches(/^\w+$/, 'Неверно заполнен логин, допускаются только латинские буквы и цыфры')
 		.min(3, 'Минимальная длина логина - 3 символа')
 		.max(15, 'Максимальная длина логина - 15 символов'),
 	password: yup
@@ -53,15 +53,17 @@ const RegistrationContainer = ({ className }) => {
 	useResetForm(reset)
 
 	const onSubmit = ({ login, password }) => {
-		server.register(login, password).then(({ error, res }) => {
-			if (error) {
-				setServerError(`Ошибка запроса: ${error}`);
-				return;
-			}
+		// server.register(login, password).then(({ error, res }) => {
+		// 	if (error) {
+		// 		setServerError(`Ошибка запроса: ${error}`);
+		// 		return;
+		// 	}
 
-			dispatch(setUser(res));
-			sessionStorage.setItem('userData', JSON.stringify(res))
-		});
+		// 	dispatch(setUser(res));
+		// 	sessionStorage.setItem('userData', JSON.stringify(res))
+		// });
+
+		setServerError('Не работает в DEMO-режиме')
 	};
 
 	const hasFormError =
@@ -77,6 +79,7 @@ const RegistrationContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<H2>Регистрация</H2>
+			<p>(В DEMO-режиме доступна только валидация)</p>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					type="text"

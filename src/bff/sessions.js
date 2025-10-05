@@ -4,12 +4,12 @@ export const sessions = {
 	create(user) {
 		const hash = Math.random().toFixed(50);
 
-		addSession(hash, user);
+		// addSession(hash, user);
 
 		return hash;
 	},
 	async remove(hash) {
-		const session = await getSession(hash);
+		// const session = await getSession(hash);
 
 		if (!session) {
 			return;

@@ -29,13 +29,13 @@ const FooterContainer = ({ className }) => {
 
 export const Footer = styled(FooterContainer)`
 	position: fixed;
-	top: calc(100vh - 140px);
+	bottom: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 54px;
-	width: 1333px;
-	height: 140px;
+	width: 1500px;
+	height: 120px;
 	font-size: 25px;
 	font-weight: bold;
 	box-shadow: 0 9px 35px 9px #616161;

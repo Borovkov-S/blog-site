@@ -2,21 +2,21 @@
   "users": [
     {
       "id": "001",
-      "login": "Admin",
+      "login": "Semen",
       "password": "qwerty123",
       "registered_at": "2025-03-14",
       "role_id": 0
     },
     {
       "id": "b5fa",
-      "login": "Moderator",
+      "login": "Vlad",
       "password": "qwerty123",
       "registered_at": "2050-07-06 22:24",
       "role_id": 1
     },
     {
       "id": "33ce",
-      "login": "User",
+      "login": "Ivan",
       "password": "qwerty123",
       "registered_at": "2028-04-05 21:57",
       "role_id": 2

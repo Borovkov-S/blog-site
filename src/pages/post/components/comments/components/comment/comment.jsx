@@ -8,7 +8,7 @@ import { checkAccess } from '../../../../../../utils';
 import { ROLE } from '../../../../../../constants';
 import { selectUserRole } from '../../../../../../selectors';
 
-const CommentContainer = ({ className, id, postId, author, publishedAt, content }) => {
+const CommentContainer = ({ className, id, postId, author, publishedAt, content, setComments }) => {
 	const dispatch = useDispatch();
 	const requestServer = useServerRequest();
 	const userRole = useSelector(selectUserRole);
@@ -18,7 +18,14 @@ const CommentContainer = ({ className, id, postId, author, publishedAt, content 
 			openModal({
 				question: 'Удалить комментарий?',
 				onConfirm: () => {
-					dispatch(removeCommentAsync(requestServer, postId, id));
+					// dispatch(removeCommentAsync(requestServer, postId, id));
+					const newComments = JSON.parse(sessionStorage.getItem(postId));
+					const indexDeleteComment = newComments.findIndex(
+						(comment) => comment.id === id,
+					);
+					newComments.splice(indexDeleteComment, 1);
+					sessionStorage.setItem(postId, JSON.stringify(newComments));
+					setComments(newComments)
 					dispatch(CLOSE_MODAL);
 				},
 				onCancel: () => dispatch(CLOSE_MODAL),

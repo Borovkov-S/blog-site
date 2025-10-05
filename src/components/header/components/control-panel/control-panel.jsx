@@ -73,7 +73,7 @@ const ControlPanelContainer = ({ className }) => {
 				{isAdmin && (
 					<>
 						<Icon id="fa-file-text-o" onClick={() => navigate('/post')} />
-						<Icon id="fa-users" onClick={() => navigate('/users')} />
+						{/* <Icon id="fa-users" onClick={() => navigate('/users')} /> */}
 					</>
 				)}
 			</RightAligned>

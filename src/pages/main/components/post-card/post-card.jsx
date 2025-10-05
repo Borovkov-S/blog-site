@@ -11,10 +11,14 @@ const PostCardContainer = ({
 	commentsCount,
 	imageUrl,
 }) => {
+	let currentComments = JSON.parse(sessionStorage.getItem([id]));
+	if (currentComments) {
+		commentsCount = currentComments.length;
+	}
 	return (
 		<div className={className}>
 			<Link to={`/post/${id}`}>
-				<img src={imageUrl} alt={title} />
+				<img src={imageUrl} alt={title} width='375' height='208' />
 				<div className="post-card-footer">
 					<h3>{title}</h3>
 					<div className={'post-card-info'}>

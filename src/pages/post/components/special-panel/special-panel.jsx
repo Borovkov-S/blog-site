@@ -20,9 +20,15 @@ const SpecialPanelContainer = ({ className, id, publishedAt, actionButton }) => 
 			openModal({
 				question: 'Удалить статью?',
 				onConfirm: () => {
-					dispatch(removePostAsync(requestServer, id)).then(() =>
-						navigate('/'),
-					);
+					// dispatch(removePostAsync(requestServer, id)).then(() =>
+					// 	navigate('/'),
+					// );
+
+					const posts = JSON.parse(sessionStorage.getItem('posts'));
+					const postIndex = posts.findIndex((post) => post.id === id)
+					posts.splice(postIndex, 1)
+					sessionStorage.setItem('posts', JSON.stringify(posts))
+					navigate('/')
 					dispatch(CLOSE_MODAL);
 				},
 				onCancel: () => dispatch(CLOSE_MODAL),
@@ -76,5 +82,5 @@ export const SpecialPanel = styled(SpecialPanelContainer)`
 SpecialPanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	publishedAt: PropTypes.string.isRequired,
-	actionButton: PropTypes.node.isRequired
-}
+	actionButton: PropTypes.node.isRequired,
+};

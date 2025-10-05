@@ -2,7 +2,7 @@ import { ControlPanel, Logo } from './components';
 import styled from 'styled-components';
 
 const Discription = styled.div`
-	font-size: 25px;
+	font-size: 22px;
 	font-style: italic;
 `;
 
@@ -21,8 +21,8 @@ const HeaderContainer = ({ className }) => {
 };
 
 export const Header = styled(HeaderContainer)`
-	width: 1333px;
-	height: 140px;
+	width: 1500px;
+	height: 120px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

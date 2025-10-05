@@ -17,7 +17,6 @@ const UsersContainer = ({ className }) => {
 
 	const requestServer = useServerRequest();
 
-
 	useEffect(() => {
 		if (!checkAccess([ROLE.ADMIN], userRole)) {
 			return;

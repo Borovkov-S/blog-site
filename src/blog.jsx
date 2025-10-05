@@ -11,14 +11,14 @@ const AppColumn = styled.div`
 	dispaly: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	width: 1333px;
+	width: 1500px;
 	min-height: 100%;
 	background-color: #fff;
 	margin: 0 auto;
 `;
 
 const Page = styled.div`
-	padding: 180px 54px;
+	padding: 160px 54px;
 `;
 
 export const Blog = () => {
@@ -49,7 +49,7 @@ export const Blog = () => {
 					<Route path="/" element={<Main />} />
 					<Route path="/login" element={<Authorization />} />
 					<Route path="/register" element={<Registration />} />
-					<Route path="/users" element={<Users />} />
+					{/* <Route path="/users" element={<Users />} /> */}
 					<Route path="/post/:id" element={<Post />} />
 					<Route path="/post/:id/edit" element={<Post />} />
 					<Route path="/post" element={<Post />} />

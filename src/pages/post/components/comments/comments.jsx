@@ -8,15 +8,26 @@ import { selectUserId } from '../../../../selectors';
 import { addCommentAsync } from '../../../../actions';
 import styled from 'styled-components';
 import { PROP_TYPE } from '../../../../constants';
+import * as db from '../../../../db.json';
+import { generateDate } from '../../../../bff/utils';
+import { sessions } from '../../../../bff/sessions';
 
-const CommentsContainer = ({ className, comments, postId }) => {
+const CommentsContainer = ({ className, comments, postId, setComments }) => {
 	const [newComment, setNewComment] = useState('');
 	const userId = useSelector(selectUserId);
-	const dispatch = useDispatch();
-	const requestServer = useServerRequest();
+	// const dispatch = useDispatch();
+	// const requestServer = useServerRequest();
 
 	const onNewCommentAdd = (postId, userId, content) => {
-		dispatch(addCommentAsync(requestServer, userId, postId, content));
+		// dispatch(addCommentAsync(requestServer, userId, postId, content));
+		comments.push({
+			id: String(Math.random()).slice(2, 6),
+			author_id: userId,
+			content,
+			published_at: generateDate(),
+		});
+
+		sessionStorage.setItem(postId, JSON.stringify(comments));
 		setNewComment('');
 	};
 
@@ -39,16 +50,24 @@ const CommentsContainer = ({ className, comments, postId }) => {
 				</div>
 			)}
 			<div className="comments">
-				{comments.map(({ id, author, content, publishedAt }) => (
-					<Comment
-						id={id}
-						postId={postId}
-						author={author}
-						content={content}
-						publishedAt={publishedAt}
-						key={id}
-					/>
-				))}
+				{comments.map(({ id, author_id, content, published_at }) => {
+					let author;
+					db.users.forEach((user) =>
+						user.id === author_id ? (author = user.login) : null,
+					);
+
+					return (
+						<Comment
+							id={id}
+							postId={postId}
+							author={author}
+							content={content}
+							publishedAt={published_at}
+							key={id}
+							setComments={setComments}
+						/>
+					);
+				})}
 			</div>
 		</div>
 	);

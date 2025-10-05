@@ -3,7 +3,9 @@ import { PostCard, Pagination, Search } from './components';
 import { useServerRequest } from '../../hooks';
 import { PAGINATION_LIMIT } from '../../constants';
 import { getLastPageFromLinks, debounce } from './utils';
+import * as db from '../../db.json'
 import styled from 'styled-components';
+import { getCommentsCount } from '../../bff/utils';
 
 const MainContainer = ({ className }) => {
 	const [posts, setPosts] = useState([]);
@@ -15,21 +17,33 @@ const MainContainer = ({ className }) => {
 	const requestServer = useServerRequest();
 
 	useEffect(() => {
-		requestServer('fetchPosts', searchPhrase, page, PAGINATION_LIMIT).then(
-			({ res: { posts, links } }) => {
-				setPosts(posts);
-				setIsLoading(false);
-				setLastPage(getLastPageFromLinks(links));
-			},
-		);
+		// requestServer('fetchPosts', searchPhrase, page, PAGINATION_LIMIT).then(
+		// 	({ res: { posts, links } }) => {
+		// 		setPosts(posts);
+		// 		setIsLoading(false);
+		// 		setLastPage(getLastPageFromLinks(links));
+		// 	},
+		// );
+
+		if (!sessionStorage.getItem('posts')) {
+			sessionStorage.setItem('posts', JSON.stringify(db.posts))
+			setPosts(db.posts)
+		} else {
+			setPosts(JSON.parse(sessionStorage.getItem('posts')))
+		}
+
+		setIsLoading(false)
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [requestServer, page, shouldSearch]);
 
-	const startDelayedSearch = useMemo(() => debounce(setShouldSearch, 2000), []);
+	// const startDelayedSearch = useMemo(() => debounce(setShouldSearch, 2000), []);
 
 	const onSearch = ({ target }) => {
 		setSearchPhrase(target.value);
-		startDelayedSearch(!shouldSearch);
+		// startDelayedSearch(!shouldSearch);
+		const newPosts = db.posts.filter(({title}) => title.toLowerCase().includes(target.value.toLowerCase()))
+		setPosts(newPosts)
 	};
 
 	if (isLoading) {
@@ -41,14 +55,14 @@ const MainContainer = ({ className }) => {
 			<Search searchPhrase={searchPhrase} onChange={onSearch} />
 			{posts.length ? (
 				<div className="post-list">
-					{posts.map(({ id, title, publishedAt, imageUrl, commentsCount }) => (
+					{posts.map(({ id, title, published_at, image_url }) => (
 						<PostCard
 							key={id}
 							id={id}
 							title={title}
-							imageUrl={imageUrl}
-							publishedAt={publishedAt}
-							commentsCount={commentsCount}
+							imageUrl={image_url}
+							publishedAt={published_at}
+							commentsCount={getCommentsCount(db.comments, id)}
 						/>
 					))}
 				</div>
@@ -71,8 +85,9 @@ export const Main = styled(MainContainer)`
 	& .post-list {
 		display: flex;
 		flex-wrap: wrap;
-		column-gap: 44px;
+		column-gap: 50px;
 		row-gap: 30px;
+		padding-left: 80px;
 	}
 
 	& .no-posts-found {

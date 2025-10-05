@@ -8,18 +8,20 @@ import { savePostAsync } from '../../../../actions';
 import { useServerRequest } from '../../../../hooks';
 import styled from 'styled-components';
 import { PROP_TYPE } from '../../../../constants';
+import { generateDate } from '../../../../bff/utils';
 
 const PostFormContainer = ({
 	className,
-	post: { id, title, imageUrl, content, publishedAt },
+	post: { id, title, image_url, content, published_at, comments },
+	setPost,
 }) => {
-	const [imageUrlValue, setImageUrlValue] = useState(imageUrl);
+	const [imageUrlValue, setImageUrlValue] = useState(image_url);
 	const [titleValue, setTitleValue] = useState(title);
 
 	useLayoutEffect(() => {
-		setImageUrlValue(imageUrl);
+		setImageUrlValue(image_url);
 		setTitleValue(title);
-	}, [imageUrl, title]);
+	}, [image_url, title]);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -31,14 +33,46 @@ const PostFormContainer = ({
 	const onSave = () => {
 		const newContent = sanitizeContent(contentRef.current.innerHTML);
 
-		dispatch(
-			savePostAsync(requestServer, {
+		// dispatch(
+		// 	savePostAsync(requestServer, {
+		// 		id,
+		// 		imageUrl: imageUrlValue,
+		// 		title: titleValue,
+		// 		content: newContent,
+		// 	}),
+		// ).then(({ id }) => navigate(`/post/${id}`));
+		const posts = JSON.parse(sessionStorage.getItem('posts'));
+		const postIndex = posts.findIndex((post) => post.id === id);
+
+		if (postIndex >= 0) {
+			const savedPost = {
 				id,
-				imageUrl: imageUrlValue,
 				title: titleValue,
+				image_url: imageUrlValue,
 				content: newContent,
-			}),
-		).then(({ id }) => navigate(`/post/${id}`));
+				published_at,
+				comments,
+			};
+
+			setPost(savedPost);
+			posts[postIndex] = savedPost;
+			sessionStorage.setItem('posts', JSON.stringify(posts));
+			navigate(`/post/${id}`);
+		} else {
+			const savedPost = {
+				id : String(Math.random()).slice(2, 6),
+				title: titleValue,
+				image_url: imageUrlValue,
+				content: newContent,
+				published_at: generateDate(),
+				comments: [],
+			};
+			sessionStorage.setItem(savedPost.id, JSON.stringify(savedPost.comments));
+			posts.unshift(savedPost);
+			sessionStorage.setItem('posts', JSON.stringify(posts));
+			navigate(`/`);
+		}
+
 	};
 
 	const onImageChange = ({ target }) => setImageUrlValue(target.value);
@@ -59,7 +93,7 @@ const PostFormContainer = ({
 			/>
 			<SpecialPanel
 				id={id}
-				publishedAt={publishedAt}
+				publishedAt={published_at}
 				actionButton={<Icon id="fa-floppy-o" size="25px" onClick={onSave} />}
 			/>
 			<div

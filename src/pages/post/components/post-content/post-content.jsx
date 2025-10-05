@@ -6,17 +6,17 @@ import { PROP_TYPE } from '../../../../constants';
 
 const PostContentContainer = ({
 	className,
-	post: { id, title, imageUrl, content, publishedAt },
+	post: { id, title, image_url, content, published_at },
 }) => {
 	const navigate = useNavigate();
 
 	return (
 		<div className={className}>
-			<img src={imageUrl} alt={title}></img>
+			<img src={image_url} alt={title}></img>
 			<h2>{title}</h2>
 			<SpecialPanel
 				id={id}
-				publishedAt={publishedAt}
+				publishedAt={published_at}
 				actionButton={
 					<Icon
 						id="fa-pencil-square-o"
